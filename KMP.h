@@ -3,8 +3,11 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
+
+#include "StrMatchStruct.h"
 
 void LPSArray(char* pat, int M, int* lps);
-void KMPSearch(char* pat, char* txt);
+strmatch_t KMPSearch(char* pat, char* txt);
 
 #endif // KMP_H_

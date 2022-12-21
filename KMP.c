@@ -1,33 +1,41 @@
 #include "KMP.h"
 
- 
 // Prints occurrences of txt[] in pat[]
-void KMPSearch(char* pat, char* txt)
+strmatch_t KMPSearch(char* pat, char* txt)
 {
+
+    const int lenPat = strlen(pat);
+    const int lenTxt = strlen(txt); 
+
+    strmatch_t result;
+    result.v = malloc(sizeof(int) * strlen(txt));
+    result.nr_ap = 0;
     int i = 0, j = 0;
 
-    int lps[strlen(pat)];
+    int *lps = malloc(sizeof(int) * lenPat);
     // calculul efectiv al vectorului LPS
-    LPSArray(pat, strlen(pat), lps);
+    LPSArray(pat, lenPat, lps);
 
-    while ((strlen(pat) - i) <= (strlen(txt) - j)) {
+    while ((lenPat - i) <= (lenTxt - j)) {
         if (pat[i] == txt[j]) {
             ++i; // se trece mai departe cu comparatia si in pattern
             ++j; // si in text
         }
         
-        if (i == strlen(pat)) {
+        if (i == lenPat) {
             // cand s-a atins egalitatea intre i si 
             // pattern inseamna ca intreg patternul 
             // a fost gasit in text, deci poate fi afisat
             // deoarece se termina la indexul j si e de
             // lungime i, il vom incepe de la j-i
-            printf("Found pattern at index %d\n", j - i);
+            result.v[result.nr_ap] = j - i;
+            result.nr_ap++;
+            //printf("Found pattern at index %d\n", j - i);
             i = lps[i - 1];
         }
  
         // mismatch dupa j potriviri
-        if (pat[i] != txt[j] && j < strlen(txt)) {
+        if (pat[i] != txt[j] && j < lenTxt) {
             if(i != 0) {
                 i = lps[i - 1];
             } else {
@@ -36,6 +44,8 @@ void KMPSearch(char* pat, char* txt)
 
         }
     }
+    free(lps);
+    return result;
 }
  
 // realizam completarea vectorului LPS

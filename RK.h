@@ -4,6 +4,8 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "StrMatchStruct.h"
+
 void search(char pat[], char txt[], int q);
 
 #endif // RK_H_
